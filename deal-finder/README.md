@@ -2,104 +2,103 @@
   <img src="https://img.shields.io/badge/version-0.2.0-blue" alt="version">
   <img src="https://img.shields.io/badge/platform-Claude%20Cowork-purple" alt="platform">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
-  <img src="https://img.shields.io/badge/lang-한국어-red" alt="language">
 </p>
 
-# 🛒 Deal Finder — AI Shopping Agent Plugin
+# Deal Finder — AI Shopping Agent Plugin
 
-> **"사용자가 생각하지 못한 더 나은 선택지를 찾아주고, 최저가를 넘어 최고 혜택까지 계산해주는 AI 쇼핑 에이전트"**
+> **An AI shopping agent that discovers better alternatives you didn't know existed, and calculates the true cost after stacking every discount, coupon, and cashback available.**
 
-Deal Finder는 [Claude](https://claude.ai) 기반의 쇼핑 에이전트 플러그인입니다.
-단순히 최저가를 비교하는 것을 넘어, **사용자가 모르는 대안을 선제적으로 탐색**하고 **쿠폰·카드할인·캐시백·포인트를 모두 합산한 실질 구매가**를 계산합니다.
+Deal Finder is a plugin for [Claude](https://claude.ai) that goes far beyond simple price comparison. It **proactively discovers alternatives** the user never thought of, and computes the **net purchase price** by stacking coupons, card discounts, cashback, loyalty points, and shipping into a single bottom-line number.
 
 ---
 
-## ✨ 핵심 기능
+## Key Features
 
-### 🔍 Core Engine 1: Proactive Discovery (선제적 대안 탐색)
+### Core Engine 1: Proactive Discovery
 
-사용자가 "A를 찾아줘"라고 하면, A만 찾는 것은 검색엔진이 하는 일입니다.
-Deal Finder는 **A + 사용자가 모르는 B, C까지 함께 제시**합니다.
-
-```
-Layer 1: Direct Match (사용자 요청 그대로)
-    "소니 WF-1000XM5 찾아줘" → 해당 제품 검색
-
-Layer 2: Same-Tier Alternatives (동급 경쟁제품)
-    → 같은 가격대 + 같은 스펙 티어의 경쟁 제품 자동 탐색
-    → "이 제품을 찾으셨다면, 같은 가격대에 이런 선택지도 있습니다"
-
-Layer 3: Value Disruptors (가성비 파괴자)
-    → 한 단계 아래 가격대에서 90% 이상의 성능을 내는 제품
-    → "예산의 60%로 90%의 만족을 얻을 수 있는 제품이 있습니다"
-```
-
-### 💰 Core Engine 2: Best Deal Optimizer (최고 혜택 탐색기)
-
-단순 판매가 비교는 절반의 정보입니다. 실제 소비자가 최종 지불하는 **실질 구매가**를 계산합니다.
+When you ask "find me product A", a search engine just finds A.
+Deal Finder finds **A, plus alternatives B and C you didn't know about**.
 
 ```
-표시 가격 (Listed Price)
-  - 🎫 쿠폰 할인 (Coupon)
-  - 💳 카드사 즉시할인 (Card Discount)
-  - 🔄 캐시백 (Cashback)
-  - 🏷️ 포인트 적립 (Points)
-  + 🚚 배송비 (Shipping)
+Layer 1: Direct Match
+    → Finds the exact product you asked for across multiple platforms
+
+Layer 2: Same-Tier Alternatives
+    → Auto-discovers competing products at the same price/spec tier
+    → "You searched for this, but here's another option at the same price point"
+
+Layer 3: Value Disruptors
+    → Finds products one tier below that deliver 90%+ of the performance
+    → "Spend 60% of the budget and get 90% of the satisfaction"
+    → Or: "Spend 10% more for a dramatically better experience"
+```
+
+### Core Engine 2: Best Deal Optimizer
+
+The listed price is only half the story. Deal Finder calculates the **net purchase price** — what you actually pay after every available benefit.
+
+```
+Listed Price
+  - Coupon Discount
+  - Credit Card Instant Discount
+  - Cashback
+  - Loyalty Points Earned
+  + Shipping Cost
   ────────────────────────────
-  = ✅ 실질 구매가 (Net Purchase Price)
+  = Net Purchase Price
 ```
 
-**실제 출력 예시:**
+**Example output:**
 
 ```
-💰 소니 WF-1000XM5
+Sony WF-1000XM5
 
-정가          ₩359,900
-현재가        ₩259,000  (-28%)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎫 쿠폰       -₩15,000  (플랫폼 + 판매자)
-💳 카드할인    -₩15,000  (삼성카드)
-🔄 캐시백     -₩5,180   (로켓와우 2%)
-🏷️ 적립금     -₩2,590   (쿠팡캐시 1%)
-🚚 배송비     ₩0        (로켓배송)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ 실질 구매가  ₩221,230  (정가 대비 -38.5%)
+Retail        ₩359,900
+Current       ₩259,000  (-28%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Coupon        -₩15,000  (Platform + Seller)
+Card Discount -₩15,000  (Samsung Card)
+Cashback      -₩5,180   (Rocket Wow 2%)
+Points        -₩2,590   (Coupang Cash 1%)
+Shipping      ₩0        (Rocket Delivery)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Net Price     ₩221,230  (-38.5% from retail)
 
-📌 조건: 삼성카드 + 첫 구매쿠폰 + 로켓와우
-📎 구매링크: [쿠팡에서 보기](https://...)
+Conditions: Samsung Card + First Purchase Coupon + Rocket Wow
+Link: [View on Coupang](https://...)
 ```
 
-### ⚡ Token Efficiency Engine v2
+### Token Efficiency Engine v2
 
-브라우저 스크린샷 의존도를 극단적으로 줄이는 데이터 수집 전략입니다.
+A data collection strategy that minimizes browser screenshot dependency.
 
-| 수집 수단 | 토큰 비용 | 용도 |
-|-----------|-----------|------|
-| WebSearch (병렬) | ★☆☆☆☆ | 가격, 브랜드, 리뷰 일괄 수집 |
-| WebFetch | ★★☆☆☆ | 리스팅 페이지 텍스트 파싱 |
-| JS DOM Scraping | ★★★☆☆ | 구조화 데이터 JSON 추출 |
-| Browser Screenshot | ★★★★★ | 최후 수단 (최대 2장) |
+| Method | Token Cost | Use Case |
+|--------|-----------|----------|
+| WebSearch (parallel) | ★☆☆☆☆ | Bulk price, brand, and review collection |
+| WebFetch | ★★☆☆☆ | Listing page text parsing |
+| JS DOM Scraping | ★★★☆☆ | Structured data JSON extraction |
+| Browser Screenshot | ★★★★★ | Last resort only (max 2 shots) |
 
-**결과:** 기존 대비 **토큰 약 4배 절감** (~80K → ~20K)
+**Result:** ~4x token reduction compared to browser-heavy approach (~80K → ~20K)
 
 ---
 
-## 📦 모듈 구성
+## Modules
 
-| 모듈 | 커맨드 | 설명 | 출력 |
-|------|--------|------|------|
-| **Research Agent** | `/shop-research` | 제품 검색 + 3-Layer 대안 탐색 + 혜택 계산 | `research_output.json` |
-| **Moodboard Agent** | `/shop-moodboard` | Pinterest 스타일 비주얼 카드 보드 | `moodboard.html` |
-| **Price Graph Agent** | `/shop-price` | 가격 추이 차트 + 매수/대기 판단 | `price-graph.html` |
-| **Comparison Agent** | `/shop-compare` | 스펙/가격/리뷰 나란히 비교표 | `comparison.html` |
+| Module | Command | Description | Output |
+|--------|---------|-------------|--------|
+| **Research Agent** | `/shop-research` | Product search + 3-layer alternative discovery + benefit calculation | `research_output.json` |
+| **Moodboard Agent** | `/shop-moodboard` | Pinterest-style visual card board | `moodboard.html` |
+| **Price Graph Agent** | `/shop-price` | Price history chart + buy/wait recommendation | `price-graph.html` |
+| **Comparison Agent** | `/shop-compare` | Side-by-side spec/price/review comparison table | `comparison.html` |
 
 ---
 
-## 🏗️ 아키텍처
+## Architecture
 
 ### Pipeline-as-JSON
 
-에이전트 간 JSON 파일을 통해 상태를 전달하는 파이프라인 구조입니다.
+Agents communicate through JSON files in a pipeline architecture.
 
 ```
 User Request
@@ -129,43 +128,41 @@ User Request
 
 ### Stage-gate Validation
 
-각 단계의 JSON 출력은 다음 단계로 넘어가기 전 반드시 검증을 통과해야 합니다.
+Every JSON output must pass validation before proceeding to the next stage. Failed gates trigger re-execution (up to 2 retries).
 
 ```
-Gate 0 (user_intent.json):  ✓ action 유효성  ✓ query 비어있지 않은지
-Gate 1 (research_output):   ✓ products ≥ 1   ✓ pricing.url 유효성   ✓ deal_score 범위
-Gate 2a (moodboard):        ✓ cards ≥ 1      ✓ cta_url 존재
-Gate 2b (price_output):     ✓ data_points ≥ 2 ✓ verdict 유효성
-Gate 2c (comparison):       ✓ products ≥ 2   ✓ spec_matrix rows ≥ 3
+Gate 0 (user_intent.json):  ✓ valid action enum  ✓ non-empty query
+Gate 1 (research_output):   ✓ products ≥ 1       ✓ valid pricing.url    ✓ deal_score 0-100
+Gate 2a (moodboard):        ✓ cards ≥ 1          ✓ cta_url exists
+Gate 2b (price_output):     ✓ data_points ≥ 2    ✓ valid verdict
+Gate 2c (comparison):       ✓ products ≥ 2       ✓ spec_matrix rows ≥ 3
 ```
-
-불합격 시 해당 단계를 재실행합니다 (최대 2회).
 
 ---
 
-## 🎨 Moodboard — Pinterest 스타일
+## Moodboard — Pinterest Style
 
-Research Agent 실행 후 **3개 이상 제품이 발견되면 무드보드를 자동 제안**합니다.
+Automatically suggested after Research Agent finds 3+ products.
 
-**특징:**
-- CSS Masonry 레이아웃 (3열 → 2열 → 1열 반응형)
-- 각 카드: 이미지 → 태그 → 브랜드/제품명 → 가격 블록 (정가/현재가/실질가) → Deal Score → 구매 링크
-- 연관 상품 섹션: Similar(🔗), Companion(🧩), Cross-category(🔄) 3가지 타입
-- 호버 애니메이션, 컬러 코딩된 태그
+**Features:**
+- CSS Masonry layout (3-col → 2-col → 1-col responsive)
+- Each card: image → tags → brand/name → price block (retail / current / net) → Deal Score → buy link
+- Related products section with 3 types
+- Hover animations, color-coded tags
 
-**연관 상품 유형:**
+**Related Product Types:**
 
-| Type | 아이콘 | 설명 | 예시 |
-|------|--------|------|------|
-| Similar | 🔗 | 같은 카테고리, 다른 브랜드 | YSL 로퍼 → Lemaire 로퍼 |
-| Companion | 🧩 | 액세서리, 번들 | 이어폰 → 전용 케이스 |
-| Cross-category | 🔄 | 같은 용도, 다른 제품군 | 이어폰 → 오버이어 헤드폰 |
+| Type | Icon | Description | Example |
+|------|------|-------------|---------|
+| Similar | 🔗 | Same category, different brand | YSL loafer → Lemaire loafer |
+| Companion | 🧩 | Accessories, bundles | Earbuds → Carrying case |
+| Cross-category | 🔄 | Same use case, different product type | Earbuds → Over-ear headphones |
 
 ---
 
-## 📊 Deal Score 공식
+## Deal Score Formula
 
-모든 제품에 0~100점의 Deal Score가 부여됩니다.
+Every product receives a 0–100 Deal Score.
 
 ```
 Deal Score = (Quality × 0.30)
@@ -176,155 +173,155 @@ Deal Score = (Quality × 0.30)
            + (Brand Trust × 0.05)
 ```
 
-| 항목 | 가중치 | 산출 방법 |
-|------|--------|-----------|
-| Quality | 30% | 스펙 대비 가격 비율 정규화 |
-| Price Value | 25% | 최저가 ÷ 현재가 × 100 |
-| Reviews | 20% | 평점 × log(리뷰 수) |
-| Shipping | 10% | 무료배송 100점, 유료 시 비례 차감 |
-| Return Policy | 10% | 30일 무료반품 100점, 14일 70점, 불가 20점 |
-| Brand Trust | 5% | 플랫폼 신뢰도 + 브랜드 히스토리 |
+| Factor | Weight | Calculation |
+|--------|--------|-------------|
+| Quality | 30% | Spec-to-price ratio, normalized |
+| Price Value | 25% | Lowest market price ÷ current price × 100 |
+| Reviews | 20% | Rating × log(review count) |
+| Shipping | 10% | Free = 100, paid = proportional deduction |
+| Return Policy | 10% | 30-day free = 100, 14-day = 70, none = 20 |
+| Brand Trust | 5% | Platform reputation + brand history |
 
 ---
 
-## 🌍 지원 플랫폼
+## Supported Platforms
 
-### 국내 (Korea)
+### Korea (Domestic)
 
-| 플랫폼 | 용도 |
-|--------|------|
-| Coupang (쿠팡) | 종합 쇼핑, 로켓배송 |
-| Naver Shopping | 최저가 비교, 네이버페이 |
-| Gmarket / Auction | 종합 쇼핑, 이벤트 |
-| 11번가 | 종합 쇼핑, SK 혜택 |
-| SSG (신세계몰) | 백화점 브랜드 |
-| Danawa (다나와) | 전자제품 가격비교 |
-| Enuri (에누리) | 전자제품 가격비교 |
-| TMON / WeMakePrice | 타임세일 |
+| Platform | Use Case |
+|----------|----------|
+| Coupang | General shopping, Rocket Delivery |
+| Naver Shopping | Price comparison, Naver Pay |
+| Gmarket / Auction | General shopping, events |
+| 11st | General shopping, SK benefits |
+| SSG (Shinsegae) | Department store brands |
+| Danawa | Electronics price comparison |
+| Enuri | Electronics price comparison |
+| TMON / WeMakePrice | Flash sales |
 
-### 글로벌
+### Global
 
-| 플랫폼 | 용도 |
-|--------|------|
-| Amazon (US/JP/DE) | 종합 쇼핑, 프라임 |
-| eBay | 중고/리퍼, 글로벌 셀러 |
-| AliExpress | 초저가 직구 |
-| Farfetch / SSENSE | 명품/디자이너 브랜드 |
-| MR PORTER / Mytheresa | 프리미엄 패션 |
-| iHerb | 건강식품 |
+| Platform | Use Case |
+|----------|----------|
+| Amazon (US/JP/DE) | General shopping, Prime |
+| eBay | Used/refurbished, global sellers |
+| AliExpress | Ultra-low-cost imports |
+| Farfetch / SSENSE | Luxury & designer brands |
+| MR PORTER / Mytheresa | Premium fashion |
+| iHerb | Health supplements |
 
 ---
 
-## 🚀 사용법
+## Getting Started
 
-### 설치
+### Installation
 
-1. `deal-finder.plugin` 파일을 다운로드합니다
-2. Claude Cowork에서 플러그인을 설치합니다
-3. 별도 API 키나 환경변수 설정이 필요 없습니다
+1. Download `deal-finder.plugin`
+2. Install the plugin in Claude Cowork
+3. No API keys or environment variables required
 
-### 자연어 트리거
+### Natural Language Triggers
 
-자연어로 요청하면 적절한 스킬이 자동으로 트리거됩니다:
+Just type naturally — the appropriate skill triggers automatically:
 
-| 입력 예시 | 실행되는 모듈 |
-|-----------|---------------|
-| "아이패드 에어 최저가 찾아줘" | Research |
-| "30만원 이하 무선 이어폰 추천해줘" | Research → (자동 제안) Moodboard |
-| "무선 이어폰 무드보드 만들어줘" | Research → Moodboard |
-| "이 제품 가격 추이 보여줘 [URL]" | Price Graph |
-| "갤럭시 vs 아이폰 비교해줘" | Research → Comparison |
-| "추천해줘" | Full Pipeline (모든 모듈) |
+| Input | Module(s) Activated |
+|-------|-------------------|
+| "Find the best price for iPad Air" | Research |
+| "Recommend wireless earbuds under $200" | Research → (auto-suggest) Moodboard |
+| "Make a moodboard for winter jackets" | Research → Moodboard |
+| "Show me price history for this [URL]" | Price Graph |
+| "Compare Galaxy S25 vs iPhone 16" | Research → Comparison |
+| "What should I buy?" | Full Pipeline (all modules) |
 
-### 커맨드 직접 호출
+### Direct Commands
 
 ```
-/shop-research 노이즈캔슬링 이어폰 30만원 이하
-/shop-moodboard 겨울 패딩 50만원 이하
+/shop-research noise-cancelling earbuds under $200
+/shop-moodboard winter puffer jackets under $500
 /shop-price https://coupang.com/vp/products/123456
-/shop-compare 갤럭시 S25 vs 아이폰 16 vs 픽셀 9
+/shop-compare Galaxy S25 vs iPhone 16 vs Pixel 9
 ```
 
 ---
 
-## 📁 프로젝트 구조
+## Project Structure
 
 ```
 deal-finder/
 ├── .claude-plugin/
-│   └── plugin.json          # 플러그인 매니페스트
-├── CLAUDE.md                # 마스터 에이전트 아키텍처 (LLM 실행 문서)
-├── README.md                # 이 파일
+│   └── plugin.json          # Plugin manifest
+├── CLAUDE.md                # Master agent architecture (LLM execution doc)
+├── README.md                # This file
 ├── commands/
-│   ├── shop-research.md     # /shop-research 커맨드 정의
-│   ├── shop-moodboard.md    # /shop-moodboard 커맨드 정의
-│   ├── shop-price.md        # /shop-price 커맨드 정의
-│   └── shop-compare.md      # /shop-compare 커맨드 정의
+│   ├── shop-research.md     # /shop-research command definition
+│   ├── shop-moodboard.md    # /shop-moodboard command definition
+│   ├── shop-price.md        # /shop-price command definition
+│   └── shop-compare.md      # /shop-compare command definition
 └── skills/
     ├── research/
-    │   ├── SKILL.md          # Research Agent 스킬 정의
-    │   ├── references/       # 플랫폼 셀렉터, 점수 공식 등
-    │   └── examples/         # 출력 JSON 샘플
+    │   ├── SKILL.md          # Research Agent skill definition
+    │   ├── references/       # Platform selectors, scoring formulas
+    │   └── examples/         # Output JSON samples
     ├── moodboard/
-    │   ├── SKILL.md          # Moodboard Agent 스킬 정의
-    │   └── references/       # HTML 템플릿, 카드 디자인 룰
+    │   ├── SKILL.md          # Moodboard Agent skill definition
+    │   └── references/       # HTML templates, card design rules
     ├── price-graph/
-    │   ├── SKILL.md          # Price Graph Agent 스킬 정의
-    │   └── references/       # Chart.js 템플릿
+    │   ├── SKILL.md          # Price Graph Agent skill definition
+    │   └── references/       # Chart.js templates
     └── comparison/
-        ├── SKILL.md          # Comparison Agent 스킬 정의
-        └── references/       # 비교표 HTML 템플릿
+        ├── SKILL.md          # Comparison Agent skill definition
+        └── references/       # Comparison table HTML templates
 ```
 
 ---
 
-## 🔧 기술 스택
+## Tech Stack
 
-| 기술 | 용도 |
-|------|------|
-| Claude (Anthropic) | LLM 에이전트 기반 |
-| WebSearch API | 실시간 가격/리뷰 수집 |
-| WebFetch | 상품 페이지 텍스트 파싱 |
-| Chart.js | 가격 추이 인터랙티브 차트 |
-| CSS Masonry | Pinterest 무드보드 레이아웃 |
-| Pretendard 폰트 | 한국어 최적화 타이포그래피 |
+| Technology | Purpose |
+|-----------|---------|
+| Claude (Anthropic) | LLM agent backbone |
+| WebSearch API | Real-time price & review collection |
+| WebFetch | Product page text parsing |
+| Chart.js | Interactive price history charts |
+| CSS Masonry | Pinterest-style moodboard layout |
+| Pretendard Font | Korean-optimized typography |
 
 ---
 
-## 🧭 로드맵
+## Roadmap
 
 - [x] 4-Module Architecture (Research, Moodboard, Price, Comparison)
 - [x] Proactive Discovery 3-Layer
-- [x] Best Deal Optimizer (실질 구매가)
+- [x] Best Deal Optimizer (Net Purchase Price)
 - [x] Token Efficiency Engine v2
 - [x] Pinterest Masonry Moodboard
-- [ ] `references/` 폴더 실제 데이터 채우기 (platform-selectors, deal-score-formula 등)
-- [ ] 가격 알림 기능 (Price Alert)
-- [ ] 위시리스트 기능
-- [ ] 사용자 카드 보유 정보 연동 (개인화된 카드할인 추천)
-- [ ] 해외직구 관부가세 자동 계산
-- [ ] 커뮤니티 리뷰 분석 (뽐뿌, 클리앙, Reddit)
+- [ ] Populate `references/` with real data (platform-selectors, deal-score-formula, etc.)
+- [ ] Price Alert notifications
+- [ ] Wishlist feature
+- [ ] User credit card profile integration (personalized card discount recommendations)
+- [ ] International shipping tax/duty auto-calculator
+- [ ] Community review analysis (Reddit, forums)
 
 ---
 
-## 📜 라이선스
+## License
 
 MIT License
 
 ---
 
-## 🙏 기여
+## Contributing
 
-이슈와 PR을 환영합니다. 특히 아래 영역에 도움이 필요합니다:
+Issues and PRs are welcome. Areas where help is especially needed:
 
-- 플랫폼별 CSS 셀렉터 패턴 (`references/platform-selectors.md`)
-- 카테고리별 비교 기준 추가 (`references/discovery-heuristics.md`)
-- 새로운 쇼핑 플랫폼 지원 확장
+- Platform-specific CSS selector patterns (`references/platform-selectors.md`)
+- Category-specific comparison criteria (`references/discovery-heuristics.md`)
+- New shopping platform support
 
 ---
 
 <p align="center">
-  <b>Deal Finder</b> — 쇼핑은 검색이 아니라 발견이다. 🛍️
+  <b>Deal Finder</b> — Shopping is not searching. It's discovering.
   <br>
   Built with ❤️ by <a href="https://github.com/ashmoonori-afk">Gwanghoon</a>
 </p>
