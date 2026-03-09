@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Finder | 남성 개더링 로퍼 무드보드</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FAFAFA;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  .header {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 24px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .header .subtitle {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .header .meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #999;
+  }
+
+  .header .meta span {
+    background: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .section-title {
+    padding: 24px 32px 8px;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-desc {
+    padding: 0 32px 16px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* Pinterest Masonry */
+  .masonry {
+    column-count: 3;
+    column-gap: 16px;
+    padding: 0 32px 32px;
+  }
+
+  @media (max-width: 900px) { .masonry { column-count: 2; } }
+  @media (max-width: 560px) { .masonry { column-count: 1; } }
+
+  .card {
+    break-inside: avoid;
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: #f5f5f5;
+    display: block;
+  }
+
+  .card-body { padding: 16px; }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .tag-layer1 { background: #DBEAFE; color: #1E40AF; }
+  .tag-layer2 { background: #D1FAE5; color: #065F46; }
+  .tag-layer3 { background: #FEF3C7; color: #92400E; }
+  .tag-style { background: #F3E8FF; color: #6B21A8; }
+  .tag-related-similar { background: #E0F2FE; color: #0369A1; }
+  .tag-related-companion { background: #FCE7F3; color: #9D174D; }
+  .tag-related-cross { background: #ECFDF5; color: #047857; }
+
+  .card-brand {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .price-block {
+    background: #FAFAFA;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .price-row:last-child { margin-bottom: 0; }
+
+  .price-label { color: #888; }
+
+  .price-original {
+    text-decoration: line-through;
+    color: #bbb;
+  }
+
+  .price-current {
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .price-best {
+    font-weight: 800;
+    color: #059669;
+    font-size: 15px;
+  }
+
+  .benefit-summary {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .deal-score {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .score-bar {
+    flex: 1;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  .score-fill.high { background: #22C55E; }
+  .score-fill.mid { background: #3B82F6; }
+  .score-fill.low { background: #F59E0B; }
+
+  .score-num {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: right;
+  }
+
+  .cta-btn {
+    display: block;
+    text-align: center;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cta-btn:hover { background: #333; }
+
+  .divider {
+    height: 1px;
+    background: #eee;
+    margin: 8px 32px 0;
+  }
+
+  .token-log {
+    padding: 16px 32px;
+    font-size: 11px;
+    color: #bbb;
+    text-align: center;
+  }
+
+  .reason-badge {
+    font-size: 11px;
+    color: #666;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>남성 개더링(주름) 로퍼</h1>
+  <div class="subtitle">Saint Laurent, The Row 스타일 — 소프트 레더 개더링 디테일 로퍼 큐레이션</div>
+  <div class="meta">
+    <span>📅 2026-03-09</span>
+    <span>🔍 8개 제품</span>
+    <span>💡 대안 3개 포함</span>
+    <span>⚡ Token-Efficient v2</span>
+  </div>
+</div>
+
+<!-- ===== LAYER 1: Direct Match ===== -->
+<div class="section-title">🎯 Direct Match — 요청하신 브랜드</div>
+<div class="section-desc">Saint Laurent, The Row의 개더링/소프트 로퍼</div>
+
+<div class="masonry">
+
+  <!-- Card 1: Saint Laurent Le Loafer -->
+  <a class="card" href="https://www.farfetch.com/kr/shopping/men/saint-laurent/loafers-2/items.aspx" target="_blank">
+    <img class="card-img" src="https://cdn-images.farfetch-contents.com/22/52/27/51/22522751_52481990_1000.jpg" alt="Saint Laurent Le Loafer" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=Saint+Laurent'">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer1">Direct Match</span>
+        <span class="tag tag-style">개더링</span>
+      </div>
+      <div class="card-brand">Saint Laurent</div>
+      <div class="card-name">Le Loafer 레더 로퍼</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">정가</span>
+          <span class="price-original">₩1,540,000</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Farfetch</span>
+          <span class="price-current">₩1,431,000</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">병행수입 (오케이몰)</span>
+          <span class="price-best">₩785,000</span>
+        </div>
+      </div>
+      <div class="benefit-summary">💳 병행수입 최저가 기준 약 49% 절약<br>🏷️ 오케이몰 첫구매 쿠폰 적용 가능</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:82%"></div></div>
+        <span class="score-num">82</span>
+      </div>
+      <div class="cta-btn">최저가 보기 →</div>
+    </div>
+  </a>
+
+  <!-- Card 2: Saint Laurent Penny Slot -->
+  <a class="card" href="https://www.farfetch.com/kr/shopping/men/saint-laurent/loafers-2/items.aspx" target="_blank">
+    <img class="card-img" src="https://cdn-images.farfetch-contents.com/25/61/28/28/25612828_50753363_1000.jpg" alt="Saint Laurent Penny Slippers" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=YSL+Penny'">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer1">Direct Match</span>
+        <span class="tag tag-style">페니 슬롯</span>
+      </div>
+      <div class="card-brand">Saint Laurent</div>
+      <div class="card-name">Le Loafer 페니 슬리퍼</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">Farfetch KR</span>
+          <span class="price-current">₩950,000</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">해외 최저가</span>
+          <span class="price-best">~$695 (≈₩930,000)</span>
+        </div>
+      </div>
+      <div class="benefit-summary">💡 YSL 카산드라 로고 플라크 포함<br>🇮🇹 이탈리아 제조</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:78%"></div></div>
+        <span class="score-num">78</span>
+      </div>
+      <div class="cta-btn">최저가 보기 →</div>
+    </div>
+  </a>
+
+  <!-- Card 3: The Row Soft Loafer -->
+  <a class="card" href="https://www.mrporter.com/en-us/mens/designer/the-row/shoes/loafers" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x400/f5f5f5/999?text=The+Row%0ASoft+Loafer" alt="The Row Soft Loafer">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer1">Direct Match</span>
+        <span class="tag tag-style">소프트 개더링</span>
+      </div>
+      <div class="card-brand">The Row</div>
+      <div class="card-name">New Soft Loafer</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">정가</span>
+          <span class="price-current">$1,250~$1,355</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">La Garçonne</span>
+          <span class="price-best">$990~</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">원화 환산</span>
+          <span class="price-best">≈₩1,325,000~</span>
+        </div>
+      </div>
+      <div class="benefit-summary">🏆 미니멀리즘 최고봉, 소프트 레더<br>📦 Lyst 세일 시 $950~</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill mid" style="width:75%"></div></div>
+        <span class="score-num">75</span>
+      </div>
+      <div class="cta-btn">MR PORTER에서 보기 →</div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ===== LAYER 2: Same-Tier Alternatives ===== -->
+<div class="divider"></div>
+<div class="section-title">🔗 Same-Tier Alternatives — 같은 급의 다른 선택지</div>
+<div class="section-desc">비슷한 가격대에서 개더링/소프트 스타일이 돋보이는 경쟁 브랜드</div>
+
+<div class="masonry">
+
+  <!-- Card 4: Lemaire Piped Loafer -->
+  <a class="card" href="https://www.ssense.com/en-us/men/product/lemaire/black-piped-loafers/10534281" target="_blank">
+    <img class="card-img" src="https://img.ssensemedia.com/images/242646M231012_1/lemaire-black-piped-loafers.jpg" alt="Lemaire Piped Loafer" onerror="this.src='https://placehold.co/400x400/f5f5f5/999?text=Lemaire%0APiped+Loafer'">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer2">대안 추천</span>
+        <span class="tag tag-style">파이핑</span>
+      </div>
+      <div class="card-brand">Lemaire</div>
+      <div class="card-name">Piped Loafer — Black Calfskin</div>
+      <div class="reason-badge">💡 YSL/The Row 대비 30~40% 저렴. 파이핑 디테일이 개더링과 유사한 소프트 실루엣 연출. 포르투갈 제조.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">정가</span>
+          <span class="price-original">$876</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">SSENSE 세일가</span>
+          <span class="price-best">$725 (≈₩970,000)</span>
+        </div>
+      </div>
+      <div class="benefit-summary">✨ 그레인드 카프스킨, 스퀘어 토<br>🔄 크레이프 러버 솔 — 편안함 우수</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:85%"></div></div>
+        <span class="score-num">85</span>
+      </div>
+      <div class="cta-btn">SSENSE에서 보기 →</div>
+    </div>
+  </a>
+
+  <!-- Card 5: Bottega Veneta Astaire -->
+  <a class="card" href="https://www.mytheresa.com/us/en/men/bottega-veneta-astaire-leather-loafers-black-p00890596" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x400/f5f5f5/999?text=Bottega+Veneta%0AAstaire" alt="Bottega Veneta Astaire">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer2">대안 추천</span>
+        <span class="tag tag-style">노트 디테일</span>
+      </div>
+      <div class="card-brand">Bottega Veneta</div>
+      <div class="card-name">Astaire Loafer</div>
+      <div class="reason-badge">💡 시그니처 매듭 장식 + 폴리싱 카프스킨. YSL과 다른 미학이지만 동급 럭셔리. 중고가 $696~로 가성비 가능.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">정가</span>
+          <span class="price-current">$1,300 (≈₩1,740,000)</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">세일/중고</span>
+          <span class="price-best">$696~ (≈₩930,000~)</span>
+        </div>
+      </div>
+      <div class="benefit-summary">🇮🇹 이탈리아 제조, 골드 매듭 장식<br>🏷️ 시즌 오프 시 40%+ 할인 빈번</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill mid" style="width:74%"></div></div>
+        <span class="score-num">74</span>
+      </div>
+      <div class="cta-btn">Mytheresa에서 보기 →</div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ===== LAYER 3: Value Disruptors ===== -->
+<div class="divider"></div>
+<div class="section-title">⚡ Value Disruptors — 가성비 파괴자</div>
+<div class="section-desc">명품 감성의 90%를 30~60% 가격에. "이 가격에 이 퀄리티?"</div>
+
+<div class="masonry">
+
+  <!-- Card 6: 국내 수제화 브랜드 -->
+  <a class="card" href="https://www.musinsa.com/search/goods?keyword=%EA%B0%9C%EB%8D%94%EB%A7%81+%EB%A1%9C%ED%8D%BC" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x400/f5f5f5/999?text=%ED%94%8C%EB%9E%A9%EC%97%90%ED%94%84%0A%EC%A0%9C%EB%A6%AC%EC%BD%94+%EB%A1%9C%ED%8D%BC" alt="플랩에프 제리코 로퍼">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer3">가성비 추천</span>
+        <span class="tag tag-style">핸드메이드</span>
+      </div>
+      <div class="card-brand">플랩에프 (Flap.F)</div>
+      <div class="card-name">제리코 소프트 로퍼</div>
+      <div class="reason-badge">💡 국내 핸드메이드 수제화. YSL 개더링 실루엣을 10분의 1 가격에. 7가지 라인 중 소프트 라인이 주름 스타일에 근접.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">무신사</span>
+          <span class="price-best">₩129,000~189,000</span>
+        </div>
+      </div>
+      <div class="benefit-summary">🇰🇷 국내 수제화, 사이즈 교환 무료<br>💳 무신사 카드할인 추가 5~10%</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:88%"></div></div>
+        <span class="score-num">88</span>
+      </div>
+      <div class="cta-btn">무신사에서 보기 →</div>
+    </div>
+  </a>
+
+  <!-- Card 7: 가데옴므 소가죽 로퍼 -->
+  <a class="card" href="https://m.coupang.com/nm/plp/551065" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x400/f5f5f5/999?text=%EA%B0%80%EB%8D%B0%EC%98%B4%EB%AF%80%0A%EC%86%8C%EA%B0%80%EC%A3%BD+%EB%A1%9C%ED%8D%BC" alt="가데옴므 소가죽 로퍼">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer3">가성비 추천</span>
+        <span class="tag tag-style">천연 소가죽</span>
+      </div>
+      <div class="card-brand">가데옴므</div>
+      <div class="card-name">천연 소가죽 소프트 로퍼</div>
+      <div class="reason-badge">💡 쿠팡 50% 할인 진행 중. 천연 소가죽으로 착화감 우수. 명품 개더링 감성을 7만원대에 체험.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">정가</span>
+          <span class="price-original">₩151,600</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">쿠팡 할인가</span>
+          <span class="price-best">₩75,800 (-50%)</span>
+        </div>
+      </div>
+      <div class="benefit-summary">🚀 로켓배송 내일 도착<br>💳 와우회원 추가 2% 적립</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:91%"></div></div>
+        <span class="score-num">91</span>
+      </div>
+      <div class="cta-btn">쿠팡에서 보기 →</div>
+    </div>
+  </a>
+
+  <!-- Card 8: Clarks -->
+  <a class="card" href="https://www.musinsa.com/search/goods?keyword=%ED%81%B4%EB%9D%BD%EC%8A%A4+%EB%A1%9C%ED%8D%BC" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x400/f5f5f5/999?text=Clarks%0APure+Loafer" alt="Clarks Pure Loafer">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-layer3">가성비 추천</span>
+        <span class="tag tag-style">클래식 소프트</span>
+      </div>
+      <div class="card-brand">Clarks</div>
+      <div class="card-name">Pure Loafer — Soft Leather</div>
+      <div class="reason-badge">💡 영국 헤리티지 브랜드. 소프트 레더 + 쿠션 인솔. 20만원대에서 착화감 최고 수준. 업무/캐주얼 겸용.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">국내</span>
+          <span class="price-current">₩179,000~219,000</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">해외직구</span>
+          <span class="price-best">~$120 (≈₩160,000)</span>
+        </div>
+      </div>
+      <div class="benefit-summary">👟 Cushion Plus 인솔 기술<br>🌍 해외직구 시 40% 절약 가능</div>
+      <div class="deal-score">
+        <div class="score-bar"><div class="score-fill high" style="width:86%"></div></div>
+        <span class="score-num">86</span>
+      </div>
+      <div class="cta-btn">무신사에서 보기 →</div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ===== Related Products ===== -->
+<div class="divider"></div>
+<div class="section-title">💡 이런 상품은 어때요?</div>
+<div class="section-desc">개더링 로퍼와 함께 스타일링하기 좋은 연관 아이템</div>
+
+<div class="masonry">
+
+  <a class="card" href="https://www.ssense.com/en-us/men/product/lemaire/brown-flat-piped-loafers/17164531" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x300/f5f5f5/999?text=Lemaire%0ABrown+Flat+Piped" alt="Lemaire Brown Flat Piped">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-related-similar">🔗 유사 스타일</span>
+      </div>
+      <div class="card-brand">Lemaire</div>
+      <div class="card-name">Brown Flat Piped Loafer</div>
+      <div class="reason-badge">블랙 외 브라운 컬러 옵션. 봄/가을 시즌에 더 부드러운 느낌.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">SSENSE</span>
+          <span class="price-best">$725~</span>
+        </div>
+      </div>
+      <div class="cta-btn">SSENSE에서 보기 →</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.ssense.com/en-us/men/product/lemaire/black-flat-piped-slippers/17164541" target="_blank">
+    <img class="card-img" src="https://placehold.co/400x300/f5f5f5/999?text=Lemaire%0AFlat+Piped+Slipper" alt="Lemaire Flat Piped Slipper">
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-related-companion">🧩 함께 보면 좋은</span>
+      </div>
+      <div class="card-brand">Lemaire</div>
+      <div class="card-name">Black Flat Piped Slipper</div>
+      <div class="reason-badge">로퍼보다 더 캐주얼한 슬리퍼 타입. 여름 데일리용.</div>
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-label">SSENSE</span>
+          <span class="price-best">$640~</span>
+        </div>
+      </div>
+      <div class="cta-btn">SSENSE에서 보기 →</div>
+    </div>
+  </a>
+
+</div>
+
+<div class="token-log">
+  ⚡ Token Budget: WebSearch ×8 (병렬) | WebFetch ×0 (egress blocked → 스킵) | Screenshot ×0 | 수집 8개 제품<br>
+  🔧 Deal Finder v0.2.0 — Token-Efficient Pipeline v2 | Generated 2026-03-09
+</div>
+
+</body>
+</html>

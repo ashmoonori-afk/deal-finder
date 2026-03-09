@@ -1,0 +1,17 @@
+{
+  "name": "deal-finder",
+  "version": "0.1.0",
+  "description": "AI shopping agent that finds the best deals with proactive alternative discovery and benefit-stacked pricing across domestic and global platforms",
+  "author": {
+    "name": "Gwanghoon"
+  },
+  "keywords": [
+    "shopping",
+    "deal",
+    "price-comparison",
+    "coupon",
+    "cashback",
+    "moodboard",
+    "price-tracking"
+  ]
+}
